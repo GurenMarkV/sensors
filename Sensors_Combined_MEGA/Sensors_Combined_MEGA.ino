@@ -1,6 +1,6 @@
 /**************************************************************************/
 /*
-    Sensors.ino V0.0.8
+    Sensors.ino V0.0.9
     Sensors Program for Autonomous Multi-Sensor Information Fusion
     Serial print out and save to SD card
     
@@ -9,7 +9,7 @@
     Talha Abdulaziz
     Walter Tchouku
 
-    Mar 19 2018
+    Apr 26 2018
 
     https://github.com/uwinrockets
 
@@ -28,7 +28,7 @@
 #include <NeoTee.h>
 #include "SdFat.h"
 
-#define BNO055_SAMPLERATE_DELAY_MS (1000)
+#define BNO055_SAMPLERATE_DELAY_MS (10)
 #define CCS811_ADDR 0x5B //Default I2C Address
 //#define CCS811_ADDR 0x5A //Alternate I2C Address
 
@@ -326,16 +326,16 @@ void loop()
 {
   tee.println();
   //Check to see if CCS811 has new data (it's the slowest sensor)
-  if (myCCS811.dataAvailable()) 
-  {
-    myCCS811.readAlgorithmResults(); //Read latest from CCS811 and update tVOC and CO2 variables
-    //getWeather(); //Get latest humidity/pressure/temp data from BME280
-    //printData(); //Pretty print all the data
-  }
-  else if (myCCS811.checkForStatusError()) //Check to see if CCS811 has thrown an error
-  {
-    tee.println(myCCS811.getErrorRegister()); //Prints whatever CSS811 error flags are detected
-  }
+  // if (myCCS811.dataAvailable()) 
+  // {
+  //   myCCS811.readAlgorithmResults(); //Read latest from CCS811 and update tVOC and CO2 variables
+  //   //getWeather(); //Get latest humidity/pressure/temp data from BME280
+  //   //printData(); //Pretty print all the data
+  // }
+  // else if (myCCS811.checkForStatusError()) //Check to see if CCS811 has thrown an error
+  // {
+  //   tee.println(myCCS811.getErrorRegister()); //Prints whatever CSS811 error flags are detected
+  // }
 
     
   // Possible vector values can be:
@@ -422,11 +422,11 @@ void loop()
     //BME Temperature (*C)
     outputToSD(myBME280.readTempC());
     //TVOC (ppb)
-    outputToSD(myCCS811.getTVOC());
+    //outputToSD(myCCS811.getTVOC());
     //CO2 (ppm)
-    outputToSD(myCCS811.getCO2());
+    //outputToSD(myCCS811.getCO2());
     //CCS Temperature (*C)
-    outputToSD(myCCS811.getTemperature());
+    //outputToSD(myCCS811.getTemperature());
 
 
 //    displayCalStatus();
@@ -440,6 +440,6 @@ void loop()
 
   }
 
-  delay(1000); //Test this Delay with different values. Maybe it will work even with 10 or 100. 
+  delay(10); //Test this Delay with different values. Maybe it will work even with 10 or 100. 
 } // End of Loop
 
